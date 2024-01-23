@@ -327,7 +327,7 @@ TAPTEST(ndb_version)
 {
   printf("Checking NDB version defines and functions...\n\n");
 
-  printf(" version string: '%s'\n", MYSQL_SERVER_VERSION);
+  printf(" version string: '%s'\n", CBASE_SERVER_VERSION);
 
   printf(" NDB_MYSQL_VERSION_MAJOR: %d\n", NDB_MYSQL_VERSION_MAJOR);
   printf(" NDB_MYSQL_VERSION_MINOR: %d\n", NDB_MYSQL_VERSION_MINOR);
@@ -343,7 +343,7 @@ TAPTEST(ndb_version)
     Parse the VERSION string as X.X.X-status */
   unsigned mysql_major, mysql_minor, mysql_build;
   char mysql_status[100];
-  const int matches_version = sscanf(MYSQL_SERVER_VERSION, "%u.%u.%u-%s",
+  const int matches_version = sscanf(CBASE_SERVER_VERSION, "%u.%u.%u-%s",
                                      &mysql_major, &mysql_minor,
                                      &mysql_build, mysql_status);
   OK(matches_version == 3 || matches_version == 4);

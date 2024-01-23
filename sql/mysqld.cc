@@ -1149,9 +1149,9 @@ static const char *default_character_set_name;
 static const char *character_set_filesystem_name;
 static const char *lc_messages;
 static const char *lc_time_names_name;
-char *my_bind_addr_str;
-char *my_admin_bind_addr_str;
-uint mysqld_admin_port;
+char *cb_bind_addr_str;
+char *cb_admin_bind_addr_str;
+uint cbased_admin_port;
 bool listen_admin_interface_in_separate_thread;
 static const char *default_collation_name;
 const char *default_storage_engine;
@@ -1274,7 +1274,7 @@ mysql_mutex_t LOCK_partial_revokes;
 MYSQL_PLUGIN_IMPORT uint opt_debug_sync_timeout = 0;
 #endif /* defined(ENABLED_DEBUG_SYNC) */
 bool opt_old_style_user_limits = false, trust_function_creators = false;
-bool check_proxy_users = false, mysql_native_password_proxy_users = false,
+bool check_proxy_users = false, cbase_native_password_proxy_users = false,
      sha256_password_proxy_users = false;
 /*
   True if there is at least one per-hour limit for some user, so we should
@@ -2900,7 +2900,7 @@ bool check_address_is_wildcard(const char *address_value,
   return
       // Wildcard is not allowed in case a comma separated list of
       // addresses is specified
-      native_strncasecmp(address_value, MY_BIND_ALL_ADDRESSES,
+      native_strncasecmp(address_value, CB_BIND_ALL_ADDRESSES,
                          address_length) == 0 ||
       // The specially treated address :: is not allowed in case
       // a comma separated list of addresses is specified
@@ -3144,19 +3144,19 @@ static bool network_init(void) {
   std::list<Bind_address_info> bind_addresses_info;
 
   if (!opt_disable_networking || unix_sock_name != "") {
-    if (my_bind_addr_str != nullptr &&
-        check_bind_address_has_valid_value(my_bind_addr_str,
+    if (cb_bind_addr_str != nullptr &&
+        check_bind_address_has_valid_value(cb_bind_addr_str,
                                            &bind_addresses_info)) {
-      LogErr(ERROR_LEVEL, ER_INVALID_VALUE_OF_BIND_ADDRESSES, my_bind_addr_str);
+      LogErr(ERROR_LEVEL, ER_INVALID_VALUE_OF_BIND_ADDRESSES, cb_bind_addr_str);
       return true;
     }
 
     Bind_address_info admin_address_info;
     if (!opt_disable_networking) {
-      if (my_admin_bind_addr_str != nullptr &&
-          check_admin_address_has_valid_value(my_admin_bind_addr_str,
+      if (cb_admin_bind_addr_str != nullptr &&
+          check_admin_address_has_valid_value(cb_admin_bind_addr_str,
                                               &admin_address_info)) {
-        LogErr(ERROR_LEVEL, ER_INVALID_ADMIN_ADDRESS, my_admin_bind_addr_str);
+        LogErr(ERROR_LEVEL, ER_INVALID_ADMIN_ADDRESS, cb_admin_bind_addr_str);
         return true;
       }
       /*
@@ -3168,11 +3168,11 @@ static bool network_init(void) {
         system binds admin interface to am arbitrary selected port value,
         set it explicitly to the value MYSQL_ADMIN_PORT in case it has value 0.
       */
-      if (mysqld_admin_port == 0) mysqld_admin_port = MYSQL_ADMIN_PORT;
+      if (cbased_admin_port == 0) cbased_admin_port = CBASE_ADMIN_PORT;
     }
     Mysqld_socket_listener *mysqld_socket_listener = new (std::nothrow)
         Mysqld_socket_listener(bind_addresses_info, mysqld_port,
-                               admin_address_info, mysqld_admin_port,
+                               admin_address_info, cbased_admin_port,
                                admin_address_info.address.empty()
                                    ? false
                                    : listen_admin_interface_in_separate_thread,
@@ -3899,7 +3899,7 @@ const char *load_default_groups[] = {
 #ifdef WITH_NDBCLUSTER_STORAGE_ENGINE
     "mysql_cluster",
 #endif
-    "mysqld",        "server", MYSQL_BASE_VERSION, nullptr, nullptr};
+    "mysqld",        "server", CBASE_BASE_VERSION, nullptr, nullptr};
 
 #if defined(_WIN32)
 static const int load_default_groups_sz =
@@ -5388,7 +5388,7 @@ static int init_ssl_communication() {
   if (!opt_use_admin_ssl) g_admin_ssl_configured = true;
 
   bool initialize_admin_tls =
-      (!opt_initialize && (my_admin_bind_addr_str != nullptr))
+      (!opt_initialize && (cb_admin_bind_addr_str != nullptr))
           ? opt_use_admin_ssl
           : false;
 
@@ -8149,13 +8149,13 @@ int mysqld_main(int argc, char **argv)
 #endif
               mysqld_port, MYSQL_COMPILATION_COMMENT_SERVER);
 
-  if (!opt_disable_networking && my_admin_bind_addr_str)
+  if (!opt_disable_networking && cb_admin_bind_addr_str)
     LogEvent()
         .type(LOG_TYPE_ERROR)
         .subsys(LOG_SUBSYSTEM_TAG)
         .prio(SYSTEM_LEVEL)
-        .lookup(ER_SERVER_STARTUP_ADMIN_INTERFACE, my_admin_bind_addr_str,
-                mysqld_admin_port, MYSQL_COMPILATION_COMMENT);
+        .lookup(ER_SERVER_STARTUP_ADMIN_INTERFACE, cb_admin_bind_addr_str,
+                cbased_admin_port, MYSQL_COMPILATION_COMMENT);
 
 #if defined(_WIN32)
   if (windows_service) {
@@ -10063,7 +10063,7 @@ static int mysql_init_variables() {
   binlog_cache_use = binlog_cache_disk_use = 0;
   mysqld_user = mysqld_chroot = opt_init_file = opt_bin_logname = nullptr;
   prepared_stmt_count = 0;
-  mysqld_unix_port = opt_mysql_tmpdir = my_bind_addr_str = NullS;
+  mysqld_unix_port = opt_mysql_tmpdir = cb_bind_addr_str = NullS;
   new (&mysql_tmpdir_list) MY_TMPDIR;
   memset(&global_status_var, 0, sizeof(global_status_var));
   opt_large_pages = false;
@@ -10086,7 +10086,7 @@ static int mysql_init_variables() {
   protocol_version = PROTOCOL_VERSION;
   what_to_log = ~(1L << (uint)COM_TIME);
   refresh_version = 1L; /* Increments on each reload */
-  my_stpcpy(server_version, MYSQL_SERVER_VERSION);
+  my_stpcpy(server_version, CBASE_SERVER_VERSION);
   key_caches.clear();
   if (!(dflt_key_cache = get_or_create_key_cache(std::string_view{
             default_key_cache_base.str, default_key_cache_base.length}))) {
@@ -11074,17 +11074,17 @@ static int get_options(int *argc_ptr, char ***argv_ptr) {
   The following code is quite ugly as there is no portable way to easily set a
   string to the value of a macro
 */
-#ifdef MYSQL_SERVER_SUFFIX
-#define MYSQL_SERVER_SUFFIX_STR STRINGIFY_ARG(MYSQL_SERVER_SUFFIX)
+#ifdef CBASE_SERVER_SUFFIX
+#define CBASE_SERVER_SUFFIX_STR STRINGIFY_ARG(CBASE_SERVER_SUFFIX)
 #else
-#define MYSQL_SERVER_SUFFIX_STR MYSQL_SERVER_SUFFIX_DEF
+#define CBASE_SERVER_SUFFIX_STR CBASE_SERVER_SUFFIX_DEF
 #endif
 
 static void set_server_version(void) {
-  char *end [[maybe_unused]] = strxmov(server_version, MYSQL_SERVER_VERSION,
-                                       MYSQL_SERVER_SUFFIX_STR, NullS);
+  char *end [[maybe_unused]] = strxmov(server_version, CBASE_SERVER_VERSION,
+                                       CBASE_SERVER_SUFFIX_STR, NullS);
 #ifndef NDEBUG
-  if (!strstr(MYSQL_SERVER_SUFFIX_STR, "-debug"))
+  if (!strstr(CBASE_SERVER_SUFFIX_STR, "-debug"))
     end = my_stpcpy(end, "-debug");
 #endif
 #ifdef HAVE_VALGRIND

@@ -288,7 +288,7 @@ using Socket_error_message_buf = TCHAR[1024];
   Basically, this value instructs the server to make an attempt to bind the
   server socket to '::' address, and rollback to '0.0.0.0' if the attempt fails.
 */
-const char *MY_BIND_ALL_ADDRESSES = "*";
+const char *CB_BIND_ALL_ADDRESSES = "*";
 
 const char *ipv4_all_addresses = "0.0.0.0";
 
@@ -392,7 +392,7 @@ class TCP_socket {
     // Create a RAII guard for addrinfo struct.
     AddrInfoPtr ai_ptr{nullptr};
 
-    if (native_strcasecmp(m_bind_addr_str.c_str(), MY_BIND_ALL_ADDRESSES) ==
+    if (native_strcasecmp(m_bind_addr_str.c_str(), CB_BIND_ALL_ADDRESSES) ==
         0) {
       /*
         That's the case when bind-address is set to a special value ('*'),

@@ -414,7 +414,7 @@ void get_server_parameters(char **hostname, uint *port, char **uuid,
   *out_server_version =
       v0 + v1 * 16 + v2 * 256 + v3 * 4096 + v4 * 65536 + v5 * 1048576;
 
-  *out_admin_port = mysqld_admin_port;
+  *out_admin_port = cbased_admin_port;
 
   return;
 }

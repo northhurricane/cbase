@@ -4497,7 +4497,7 @@ static int native_password_authenticate(MYSQL_PLUGIN_VIO *vio,
     /* This should cause a HANDSHAKE ERROR */
     pkt_len = 12;
   });
-  if (mysql_native_password_proxy_users) {
+  if (cbase_native_password_proxy_users) {
     *info->authenticated_as = PROXY_FLAG;
     DBUG_PRINT("info", ("mysql_native_authentication_proxy_users is enabled, "
                         "setting authenticated_as to NULL"));
@@ -5831,11 +5831,11 @@ bool do_auto_cert_generation(ssl_artifacts_status auto_detection_status,
       Sql_string_t server_name = "MySQL_Server_";
       Sql_string_t client_name = "MySQL_Server_";
 
-      ca_name.append(MYSQL_SERVER_VERSION);
+      ca_name.append(CBASE_SERVER_VERSION);
       ca_name.append("_Auto_Generated_CA_Certificate");
-      server_name.append(MYSQL_SERVER_VERSION);
+      server_name.append(CBASE_SERVER_VERSION);
       server_name.append("_Auto_Generated_Server_Certificate");
-      client_name.append(MYSQL_SERVER_VERSION);
+      client_name.append(CBASE_SERVER_VERSION);
       client_name.append("_Auto_Generated_Client_Certificate");
 
       /*

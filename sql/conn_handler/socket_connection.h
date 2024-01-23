@@ -42,7 +42,7 @@
 
 class Channel_info;
 
-extern const char *MY_BIND_ALL_ADDRESSES;
+extern const char *CB_BIND_ALL_ADDRESSES;
 extern const char *ipv4_all_addresses;
 extern const char *ipv6_all_addresses;
 

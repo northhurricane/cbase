@@ -284,7 +284,7 @@ void Sql_formatter::format_dump_start(
   std::string time_string = std::ctime(&sys_time);
 
   std::ostringstream out;
-  out << "-- Dump created by MySQL pump utility, version: " MYSQL_SERVER_VERSION
+  out << "-- Dump created by MySQL pump utility, version: " CBASE_SERVER_VERSION
          ", " SYSTEM_TYPE " (" MACHINE_TYPE ")\n"
       << "-- Dump start time: " << time_string
       << "-- Server version: " << this->get_server_version_string() << "\n\n"

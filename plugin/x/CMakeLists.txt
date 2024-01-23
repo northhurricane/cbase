@@ -25,14 +25,14 @@ OPTION(WITH_MYSQLX "Build MySQL X plugin" ON)
 
 SET(MYSQLX_PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 SET(MYSQLX_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
-SET(MYSQLX_PLUGIN_NAME "mysqlx")
+SET(MYSQLX_PLUGIN_NAME "cbasex")
 
 IF(WIN32)
   # Activate necessary dllexport/dllimport declarations.
   ADD_DEFINITIONS(-DPROTOBUF_USE_DLLS)
 ENDIF()
 
-ADD_DEFINITIONS(-DLOG_COMPONENT_TAG="mysqlx")
+ADD_DEFINITIONS(-DLOG_COMPONENT_TAG="cbasex")
 
 INCLUDE(src/source_files.cmake)
 FOREACH(FILE ${XPL_SRC})
@@ -54,7 +54,7 @@ IF(WITH_MYSQLX)
 ENDIF()
 
 OPTION(WITH_MYSQLX_USE_PROTOBUF_FULL
-  "Link mysqlx plugin with agains full version of \
+  "Link cbasex plugin with agains full version of \
 protobuf/mysqlxmessages/mysqlxclient for better debugging"
   OFF
 )
@@ -62,7 +62,7 @@ protobuf/mysqlxmessages/mysqlxclient for better debugging"
 IF(NOT WITH_MYSQLX_USE_PROTOBUF_FULL AND NOT PROTOBUF_LITE_LIBRARY)
   SET(WITH_MYSQLX_USE_PROTOBUF_FULL ON)
   MESSAGE(WARNING "No protobuf-lite found, using full protobuf \
-library for mysqlx plugin.")
+library for cbasex plugin.")
 ENDIF()
 
 IF(WITH_MYSQLX_USE_PROTOBUF_FULL)
@@ -105,11 +105,11 @@ IF(WITH_MYSQLX)
 ENDIF()
 
 IF(XPLUGIN_LOG_PROTOBUF)
-  MESSAGE(STATUS "MYSQLX - Text log of protobuf messages enabled")
+  MESSAGE(STATUS "CBASEX - Text log of protobuf messages enabled")
   ADD_DEFINITIONS(-DXPLUGIN_LOG_PROTOBUF)
 ENDIF()
 
 IF(XPLUGIN_LOG_DEBUG OR WITH_DEBUG)
-  MESSAGE(STATUS "MYSQLX - Enabled debug traces")
+  MESSAGE(STATUS "CBASEX - Enabled debug traces")
   ADD_DEFINITIONS(-DXPLUGIN_LOG_DEBUG)
 ENDIF()

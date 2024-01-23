@@ -156,7 +156,7 @@ static bool parse_pool_nodeids(const char *opt_str, uint pool_size,
 */
 extern uint report_port;
 extern char *report_host;
-extern char *my_bind_addr_str;
+extern char *cb_bind_addr_str;
 
 static int get_processinfo_port() {
   int port = 0;
@@ -171,7 +171,7 @@ static int get_processinfo_port() {
 static const char *get_processinfo_host() {
   const char *host = report_host;
   if (!host) {
-    host = my_bind_addr_str;
+    host = cb_bind_addr_str;
     if (!(strcmp(host, "*") &&        // If bind_address matches any of
           strcmp(host, "0.0.0.0") &&  // these strings, let ProcessInfo
           strcmp(host, "::")))        // use the NDB transporter address.

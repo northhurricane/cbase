@@ -337,7 +337,7 @@ static void print_version(void)
   printf("%s  Ver %s Distrib %s, for %s (%s)\n",
          my_progname,
          NDB_TOP_VERSION,
-         MYSQL_SERVER_VERSION,
+         CBASE_SERVER_VERSION,
          SYSTEM_TYPE,MACHINE_TYPE);
 } /* print_version */
 

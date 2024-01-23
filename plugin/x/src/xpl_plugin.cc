@@ -31,7 +31,7 @@
 static struct st_mysql_daemon mysqlx_deamon_plugin_descriptor = {
     MYSQL_DAEMON_INTERFACE_VERSION};
 
-mysql_declare_plugin(mysqlx){
+mysql_declare_plugin(cbasex){
     MYSQL_AUDIT_PLUGIN, /* plugin type                   */
     /* type specific descriptor */
     modules::Module_cache::get_audit_plugin_descriptor(),

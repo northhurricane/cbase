@@ -562,7 +562,7 @@ static void create_upgrade_file() {
 
   if ((out = my_fopen(upgrade_info_file, O_TRUNC | O_WRONLY, MYF(0)))) {
     /* Write new version to file */
-    fputs(MYSQL_SERVER_VERSION, out);
+    fputs(CBASE_SERVER_VERSION, out);
     my_fclose(out, MYF(0));
     return;
   }

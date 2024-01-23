@@ -883,7 +883,7 @@ uint STDCALL mysql_get_proto_info(MYSQL *mysql) {
   return (mysql->protocol_version);
 }
 
-const char *STDCALL mysql_get_client_info(void) { return MYSQL_SERVER_VERSION; }
+const char *STDCALL mysql_get_client_info(void) { return CBASE_SERVER_VERSION; }
 
 ulong STDCALL mysql_get_client_version(void) { return MYSQL_VERSION_ID; }
 

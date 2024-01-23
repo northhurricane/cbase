@@ -233,7 +233,7 @@ extern const char *opt_secure_file_priv;
 extern bool opt_log_slow_admin_statements, opt_log_slow_replica_statements;
 extern bool sp_automatic_privileges, opt_noacl;
 extern bool opt_old_style_user_limits, trust_function_creators;
-extern bool check_proxy_users, mysql_native_password_proxy_users,
+extern bool check_proxy_users, cbase_native_password_proxy_users,
     sha256_password_proxy_users;
 #ifdef _WIN32
 extern const char *shared_memory_base_name;
@@ -291,9 +291,9 @@ extern bool password_require_current;
          safely on an atomic.
  */
 extern bool opt_partial_revokes;
-extern char *my_bind_addr_str;
-extern char *my_admin_bind_addr_str;
-extern uint mysqld_admin_port;
+extern char *cb_bind_addr_str;
+extern char *cb_admin_bind_addr_str;
+extern uint cbased_admin_port;
 extern bool listen_admin_interface_in_separate_thread;
 extern char glob_hostname[HOSTNAME_LENGTH + 1];
 extern char system_time_zone_dst_on[30], system_time_zone_dst_off[30];

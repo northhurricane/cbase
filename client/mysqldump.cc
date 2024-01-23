@@ -768,7 +768,7 @@ static void write_header(FILE *sql_file, char *db_name) {
   } else if (!opt_compact) {
     print_comment(
         sql_file, false, "-- MySQL dump %s  Distrib %s, for %s (%s)\n--\n",
-        DUMP_VERSION, MYSQL_SERVER_VERSION, SYSTEM_TYPE, MACHINE_TYPE);
+        DUMP_VERSION, CBASE_SERVER_VERSION, SYSTEM_TYPE, MACHINE_TYPE);
 
     bool freemem = false;
     char const *text = fix_identifier_with_newline(db_name, &freemem);

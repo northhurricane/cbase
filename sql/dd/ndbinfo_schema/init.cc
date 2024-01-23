@@ -130,7 +130,7 @@ static bool initialize_ndbinfo(THD *thd) {
   if (dd::check_if_server_ddse_readonly(thd, "ndbinfo")) return true;
 
   // Upgrade of ndbinfo schema begins here. Write the "upgrading" log message.
-  LogErr(INFORMATION_LEVEL, ER_NDBINFO_UPGRADING_SCHEMA, MYSQL_SERVER_VERSION);
+  LogErr(INFORMATION_LEVEL, ER_NDBINFO_UPGRADING_SCHEMA, CBASE_SERVER_VERSION);
 
   // Call into hton->dict_init() to fetch all ndbinfo tables and views
   List<const Plugin_table> ndbinfo_tables;

@@ -1043,7 +1043,7 @@ static Sys_var_uint Sys_default_password_lifetime(
     VALID_RANGE(0, UINT_MAX16), DEFAULT(0), BLOCK_SIZE(1),
     &Plock_default_password_lifetime);
 
-static Sys_var_charptr Sys_my_bind_addr(
+static Sys_var_charptr Sys_cb_bind_addr(
     "bind_address",
     "IP address(es) to bind to. Syntax: address[,address]...,"
     " where address can be an IPv4 address, IPv6 address,"
@@ -1060,8 +1060,8 @@ static Sys_var_charptr Sys_my_bind_addr(
     " requires its support from underlying Operating System. Attempt to specify"
     " a network namespace for a platform that doesn't support it results in"
     " error during socket creation.",
-    READ_ONLY NON_PERSIST GLOBAL_VAR(my_bind_addr_str), CMD_LINE(REQUIRED_ARG),
-    IN_FS_CHARSET, DEFAULT(MY_BIND_ALL_ADDRESSES));
+    READ_ONLY NON_PERSIST GLOBAL_VAR(cb_bind_addr_str), CMD_LINE(REQUIRED_ARG),
+    IN_FS_CHARSET, DEFAULT(CB_BIND_ALL_ADDRESSES));
 
 static Sys_var_charptr Sys_admin_addr(
     "admin_address",
@@ -1075,15 +1075,15 @@ static Sys_var_charptr Sys_admin_addr(
     " from underlying Operating System. Attempt to specify a network namespace"
     " for a platform that doesn't support it results in error during socket"
     " creation.",
-    READ_ONLY NON_PERSIST GLOBAL_VAR(my_admin_bind_addr_str),
+    READ_ONLY NON_PERSIST GLOBAL_VAR(cb_admin_bind_addr_str),
     CMD_LINE(REQUIRED_ARG), IN_FS_CHARSET, DEFAULT(nullptr));
 
 static Sys_var_uint Sys_admin_port(
     "admin_port",
     "Port number to use for service connection,"
-    " built-in default (" STRINGIFY_ARG(MYSQL_ADMIN_PORT) ")",
-    READ_ONLY NON_PERSIST GLOBAL_VAR(mysqld_admin_port), CMD_LINE(REQUIRED_ARG),
-    VALID_RANGE(0, 65535), DEFAULT(MYSQL_ADMIN_PORT), BLOCK_SIZE(1));
+    " built-in default (" STRINGIFY_ARG(CBASE_ADMIN_PORT) ")",
+    READ_ONLY NON_PERSIST GLOBAL_VAR(cbased_admin_port), CMD_LINE(REQUIRED_ARG),
+    VALID_RANGE(0, 65535), DEFAULT(CBASE_ADMIN_PORT), BLOCK_SIZE(1));
 
 static Sys_var_bool Sys_use_separate_thread_for_admin(
     "create_admin_listener_thread",
@@ -2507,8 +2507,8 @@ static Sys_var_bool Sys_check_proxy_users(
     "GRANT PROXY privilege definition.",
     GLOBAL_VAR(check_proxy_users), CMD_LINE(OPT_ARG), DEFAULT(false));
 
-static Sys_var_bool Sys_mysql_native_password_proxy_users(
-    "mysql_native_password_proxy_users",
+static Sys_var_bool Sys_cbase_native_password_proxy_users(
+    "cbase_native_password_proxy_users",
     "If set to FALSE (the default), then the mysql_native_password "
     "plugin will not signal for authenticated users to be checked for "
     "mapping "
@@ -2516,7 +2516,7 @@ static Sys_var_bool Sys_mysql_native_password_proxy_users(
     "authenticated accounts to be mapped to proxy users when the server "
     "option "
     "check_proxy_users is enabled.",
-    GLOBAL_VAR(mysql_native_password_proxy_users), CMD_LINE(OPT_ARG),
+    GLOBAL_VAR(cbase_native_password_proxy_users), CMD_LINE(OPT_ARG),
     DEFAULT(false));
 
 static Sys_var_bool Sys_sha256_password_proxy_users(

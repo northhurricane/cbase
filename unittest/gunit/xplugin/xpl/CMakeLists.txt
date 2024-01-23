@@ -61,7 +61,7 @@ ADD_COMPILE_FLAGS(${XPL_TEST_SRC}
 )
 
 ADD_DEPENDENCIES(${XPL_UNIT_TESTS}
-  mysqlx
+  cbasex
 )
 
 # New warning in Visual Studio 2008
@@ -74,7 +74,7 @@ ENDIF(WIN32)
 TARGET_LINK_LIBRARIES(${XPL_UNIT_TESTS}
   ${GCOV_LDFLAGS}
   ${MYSQLX_CLIENT_LIB}
-  mysqlx
+  cbasex
   mysqlclient
   gtest
   gmock

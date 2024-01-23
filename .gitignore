@@ -1,0 +1,11 @@
+#ignore bld-debug folder
+bld-debug/
+
+#ignore boost folder
+boost/
+
+#ignore build log
+build.log
+
+#ignore cscope files
+cscope*

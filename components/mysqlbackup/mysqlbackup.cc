@@ -124,9 +124,9 @@ static bool register_status_variables() {
 
   // Give the global variable a valid value before registering.
   mysqlbackup_component_version = static_cast<char *>(my_malloc(
-      PSI_NOT_INSTRUMENTED, strlen(MYSQL_SERVER_VERSION) + 1, MYF(0)));
-  strncpy(mysqlbackup_component_version, MYSQL_SERVER_VERSION,
-          strlen(MYSQL_SERVER_VERSION) + 1);
+      PSI_NOT_INSTRUMENTED, strlen(CBASE_SERVER_VERSION) + 1, MYF(0)));
+  strncpy(mysqlbackup_component_version, CBASE_SERVER_VERSION,
+          strlen(CBASE_SERVER_VERSION) + 1);
 
   if (mysqlbackup_component_version == nullptr) {
     std::string msg{std::string("Cannot register status variable '") +

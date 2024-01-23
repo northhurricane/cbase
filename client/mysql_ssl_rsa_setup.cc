@@ -112,7 +112,7 @@ char **defaults_argv = nullptr;
 static char *opt_datadir = nullptr;
 static char default_data_dir[] = MYSQL_DATADIR;
 static char *opt_suffix = nullptr;
-static char default_suffix[] = MYSQL_SERVER_VERSION;
+static char default_suffix[] = CBASE_SERVER_VERSION;
 #ifdef HAVE_CHOWN
 static char *opt_userid = nullptr;
 struct passwd *user_info = nullptr;
